@@ -98,8 +98,8 @@ class ArticleController extends \yii\web\Controller
         //所有分类
         $articleclass=ArticleClass::find()->all();
         $articleclass=ArrayHelper::map($articleclass,'id','name');
-        //创建内容
-        $content=new ArticleContent();
+        //找到内容
+        $content=ArticleContent::findOne(['article_id'=>$id]);
         //判断
         $request=\Yii::$app->request;
         if ($request->isPost) {
@@ -141,8 +141,12 @@ class ArticleController extends \yii\web\Controller
      */
 
     public function actionDelete($id){
+        //找到文章
         $article=Article::findOne($id);
-        if ($article->delete()) {
+        //找到内容
+        $articles=ArticleContent::findOne(['article_id'=>$id]);
+        //判断是否删除
+        if ($article->delete() and $articles->delete()) {
             \Yii::$app->session->setFlash('success','删除成功');
             return $this->redirect(['index']);
         }
