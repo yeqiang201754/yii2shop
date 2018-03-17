@@ -17,16 +17,16 @@ use Yii;
 class Brand extends \yii\db\ActiveRecord
 {
     public static $statuss=['隐藏','显示'];
-    public $img;
+   // public $img;
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['name', 'intro', 'status'], 'required'],
+            [['name', 'intro', 'status','logo'], 'required'],
             [['sort'],'safe'],
-            [['img'], 'image', 'extensions' => ['gif', 'jpg', 'png'], "skipOnEmpty" => true],
+            //[['img'], 'image', 'extensions' => ['gif', 'jpg', 'png'], "skipOnEmpty" => true],
 
 
 
@@ -45,7 +45,8 @@ class Brand extends \yii\db\ActiveRecord
             'logo' => '图片',
             'status' => '状态',
             'sort' => '排序',
-            'img'=>'图片'
+            'logo'=>'图片'
+
         ];
     }
 }

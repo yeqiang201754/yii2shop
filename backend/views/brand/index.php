@@ -20,9 +20,24 @@
     <tr>
       <td><?=$brand->id?></td>
       <td><?=$brand->name?></td>
-      <td><?=\backend\models\Brand::$statuss[$brand->status]?></td>
+
+      <td><?php
+
+          if($brand->status){
+           echo \yii\bootstrap\Html::a('上线',['up','id'=>$brand->id],['class'=>'btn btn-success glyphicon glyphicon-ok']);
+          }else{
+           echo   \yii\bootstrap\Html::a('下线',['down','id'=>$brand->id],['class'=>'btn btn-danger glyphicon glyphicon-remove']);
+          }
+
+
+
+          ?></td>
       <td><?=$brand->sort?></td>
-      <td><?=\yii\bootstrap\Html::img('/'.$brand->logo,['height'=>30])?></td>
+      <td><?php
+          //判断是上传了还是本地的 本地加"/"
+          $imgPath=strpos($brand->logo,"http://")!==false?$brand->logo:"/".$brand->logo;
+          echo \yii\bootstrap\Html::img($imgPath,['height'=>40]);
+          ?></td>
       <td><?=$brand->intro?></td>
         <td>
             <?=\yii\bootstrap\Html::a('修改',['update','id'=>$brand->id],['class'=>'btn btn-success'])?>
