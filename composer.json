@@ -23,7 +23,8 @@
         "qiniu/php-sdk": "^7.2",
         "crazyfd/yii2-qiniu": "^1.03",
         "creocoder/yii2-nested-sets": "^0.9.0",
-        "liyuze/yii2-ztree": "^1.0"
+        "liyuze/yii2-ztree": "^1.0",
+        "dmstr/yii2-adminlte-asset": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
