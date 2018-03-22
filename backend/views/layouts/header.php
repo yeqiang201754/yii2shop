@@ -170,7 +170,7 @@ use yii\helpers\Html;
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                        <span class="hidden-xs">名字</span>
+                        <span class="hidden-xs"><?=Yii::$app->user->identity->username?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
@@ -180,7 +180,7 @@ use yii\helpers\Html;
 
                             <p>
                                 超级管理员
-                                <small><?=date('Y-m-d',time())?></small>
+                                <small><?=long2ip(Yii::$app->user->identity->login_ip)?></small>
                             </p>
                         </li>
                         <!-- Menu Body -->

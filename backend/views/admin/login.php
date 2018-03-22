@@ -35,13 +35,13 @@ $fieldOptions2 = [
             ->textInput(['placeholder' => $model->getAttributeLabel('请输入用户名')]) ?>
 
         <?= $form
-            ->field($model, 'userpassword', $fieldOptions2)
+            ->field($model, 'password', $fieldOptions2)
             ->label(false)
             ->passwordInput(['placeholder' => $model->getAttributeLabel('请输入密码')]) ?>
 
         <div class="row">
             <div class="col-xs-8">
-                <?= $form->field($model, 'status')->checkbox() ?>
+                <?= $form->field($model, 'rememberMe')->checkbox() ?>
             </div>
             <!-- /.col -->
             <div class="col-xs-4">
