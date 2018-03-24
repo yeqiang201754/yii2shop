@@ -8,6 +8,7 @@
             <td>id</td>
             <td>用户名</td>
             <td>状态</td>
+            <td>拥有角色</td>
             <td>创建时间</td>
             <td>修改时间</td>
             <td>最后登陆时间</td>
@@ -24,6 +25,20 @@
                 <td><?=$admin->id?></td>
                 <td><?=$admin->username?></td>
                 <td><?=\backend\models\Admin::$statuss[$admin->status]?></td>
+                <td>
+                 <?php
+                 $auth=Yii::$app->authManager;
+                 $roless=$auth->getRolesByUser($admin->id);
+                // $roless=array_column($roless,'name');
+                 $rel="";
+                 if($roless) {
+                     foreach ($roless as $re) {
+                         $rel .= $re->name . ";";
+                     }
+                     echo trim($rel, ';');
+                 }
+                    ?>
+                </td>
                 <td><?=date('Y-m-d H:i:s',$admin->created_at)?></td>
                 <td><?=date('Y-m-d H:i:s',$admin->updated_at)?></td>
                 <td><?=$admin->login_at!==0?date('Y-m-d H:i:s',$admin->login_at):'此用户没有登录记录'?></td>

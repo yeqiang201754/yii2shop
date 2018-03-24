@@ -14,6 +14,7 @@ use yii\widgets\ActiveForm;
         <?= $form->field($model, 'username') ?>
         <?= $form->field($model, 'password_hash')->passwordInput(['value'=>""]) ?>
         <?= $form->field($model, 'status')->radioList(\backend\models\Admin::$statuss,['value'=>1]) ?>
+       <?= $form->field($model, 'roles')->checkboxList($roless) ?>
 
 
         <div class="form-group">

@@ -4,6 +4,8 @@ namespace backend\controllers;
 
 use backend\models\Admin;
 use backend\models\AdminForm;
+use backend\models\AuthItem;
+use yii\helpers\ArrayHelper;
 
 class AdminController extends \yii\web\Controller
 {
@@ -27,33 +29,33 @@ class AdminController extends \yii\web\Controller
         if ($request->isPost) {
             $model->load($request->post());
 
-            $admin=Admin::find()->where(['username'=>$model->username,'status'=>1])->one();
+            $admin = Admin::find()->where(['username' => $model->username, 'status' => 1])->one();
 
             if ($admin) {
 
-            if (\Yii::$app->security->validatePassword($model->password,$admin->password_hash)) {
-                \Yii::$app->user->login($admin,$model->rememberMe?3600*24:0);
-                $admin->login_at=time();
-                $admin->login_ip=ip2long(\Yii::$app->request->userIP);
-                if ($admin->save()) {
-                    \Yii::$app->session->setFlash('success','登陆成功');
+                if (\Yii::$app->security->validatePassword($model->password, $admin->password_hash)) {
+                    \Yii::$app->user->login($admin, $model->rememberMe ? 3600 * 24 : 0);
+                    $admin->login_at = time();
+                    $admin->login_ip = ip2long(\Yii::$app->request->userIP);
+
+                    \Yii::$app->session->setFlash('success', '登陆成功');
                     return $this->redirect(['index']);
+
+                } else {
+
+                    $model->addError('password', '密码错误');
                 }
+            } else {
 
-            }else{
-
-               $model->addError('password','密码错误');
+                $model->addError('username', '用户名不正确');
             }
-            }else{
-
-             $model->addError('username','用户名不正确');
-            }
-
         }
         return $this->render('login',compact('model'));
     }
 
-
+    /**注销
+     * @return \yii\web\Response
+     */
 
     public function actionLogout(){
 
@@ -70,14 +72,33 @@ return $this->redirect(['login']);
 
      $model=new Admin();
         $model->setScenario('insert');
+
+        $auth=\Yii::$app->authManager;
+        $roless=$auth->getRoles();
+     $roless=ArrayHelper::map($roless,'name','name');
+
      $request=\Yii::$app->request;
         if ($request->isPost) {
+
             $model->load($request->post());
+            //var_dump($model);exit;
             $model->password_hash=\Yii::$app->security->generatePasswordHash($model->password_hash);
             if ($model->validate()) {
 
                 $model->auth_key=uniqid();
                 if ($model->save()) {
+
+                    if ($model->roles) {
+
+
+                foreach ($model->roles as $role){
+
+                    //通过角色名找到角色对象
+                    $role=$auth->getRole($role);
+                    //给用户添加角色
+                    $auth->assign($role,$model->id);
+                }
+                    }
                     \Yii::$app->session->setFlash('success','添加成功');
 
                     return $this->redirect(['show']);
@@ -89,7 +110,7 @@ return $this->redirect(['login']);
 
         }
 
-     return $this->render('insert',compact('model'));
+     return $this->render('insert',compact('model','roless'));
 
     }
 
@@ -99,10 +120,23 @@ return $this->redirect(['login']);
     public function actionUpdate($id){
 
         $model=Admin::findOne($id);
+        $model->setScenario('update');
        $password= $model->password_hash;
-       $model->setScenario('update');
+        $auth=\Yii::$app->authManager;
+        $roless=$auth->getRoles();
+        $roless=ArrayHelper::map($roless,'name','name');
+
+
+        $role=$auth->getRolesByUser($id);
+        $role=array_keys($role);
+
+        $model->roles=$role;
+
+
+
         $request=\Yii::$app->request;
         if ($request->isPost) {
+
              $model->load($request->post());
 
             $model->password_hash = $model->password_hash=="" ? $password : \Yii::$app->security->generatePasswordHash($model->password_hash);
@@ -110,7 +144,23 @@ return $this->redirect(['login']);
             if ($model->validate()) {
 
                 $model->auth_key=uniqid();
+
                 if ($model->save()) {
+
+                    if ($model->roles) {
+                        //删除以前的
+                        $auth->revokeAll($id);
+
+                        foreach ($model->roles as $role){
+                            //实例化
+                            $auth=\Yii::$app->authManager;
+
+                            //通过角色名找到角色对象
+                            $role=$auth->getRole($role);
+                            //给用户添加角色
+                            $auth->assign($role,$model->id);
+                        }
+                    }
                     \Yii::$app->session->setFlash('success','修改成功');
 
                     return $this->redirect(['show']);
@@ -122,7 +172,7 @@ return $this->redirect(['login']);
 
         }
 
-        return $this->render('insert',compact('model'));
+        return $this->render('insert',compact('model','roless'));
 
     }
 
@@ -133,8 +183,9 @@ return $this->redirect(['login']);
 
     public function  actionDelete($id){
         $model=Admin::findOne($id);
-        if ($model->status==0) {
-            if ($model->delete()) {
+        $auth=\Yii::$app->authManager;
+        if ($model->status==0 &&$auth->revokeAll($id)) {
+            if ($model->delete() ) {
                 \Yii::$app->session->setFlash("success",'删除成功');
                 return $this->redirect(['show']);
             }
@@ -158,4 +209,7 @@ return $this->redirect(['login']);
 
 
     }
+
+
+
 }

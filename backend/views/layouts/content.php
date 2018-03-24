@@ -44,7 +44,7 @@ use dmstr\widgets\Alert;
     <div class="tab-content">
         <!-- Home tab content -->
         <div class="tab-pane" id="control-sidebar-home-tab">
-            <h3 class="control-sidebar-heading"></h3>
+            <h3 class="control-sidebar-heading">用户管理</h3>
             <ul class='control-sidebar-menu'>
 
 
@@ -53,7 +53,7 @@ use dmstr\widgets\Alert;
                         <i class="menu-icon fa fa-users bg-light-blue"></i>
 
                         <div class="menu-info">
-                            <h4 class="control-sidebar-subheading">显示管理员</h4>
+                            <h4 class="control-sidebar-subheading">显示用户</h4>
 
                             <p></p>
                         </div>
@@ -65,7 +65,7 @@ use dmstr\widgets\Alert;
                         <i class="menu-icon fa fa-user-plus bg-green"></i>
 
                         <div class="menu-info">
-                            <h4 class="control-sidebar-subheading">添加管理员</h4>
+                            <h4 class="control-sidebar-subheading">添加用户</h4>
 
                             <p></p>
                         </div>
@@ -74,58 +74,63 @@ use dmstr\widgets\Alert;
             </ul>
             <!-- /.control-sidebar-menu -->
 
-            <h3 class="control-sidebar-heading">Tasks Progress</h3>
+            <h3 class="control-sidebar-heading">角色管理</h3>
             <ul class='control-sidebar-menu'>
-                <li>
-                    <a href='/admin/insert'>
-                        <h4 class="control-sidebar-subheading">
-                            Custom Template Design
-                            <span class="label label-danger pull-right">70%</span>
-                        </h4>
 
-                        <div class="progress progress-xxs">
-                            <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+
+                <li>
+                    <a href='/role/index'>
+                        <i class="menu-icon fa fa-users bg-light-blue"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">显示角色</h4>
+
+                            <p></p>
                         </div>
                     </a>
                 </li>
-                <li>
-                    <a href='javascript::;'>
-                        <h4 class="control-sidebar-subheading">
-                            Update Resume
-                            <span class="label label-success pull-right">95%</span>
-                        </h4>
 
-                        <div class="progress progress-xxs">
-                            <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-                        </div>
-                    </a>
-                </li>
                 <li>
-                    <a href='javascript::;'>
-                        <h4 class="control-sidebar-subheading">
-                            Laravel Integration
-                            <span class="label label-waring pull-right">50%</span>
-                        </h4>
+                    <a href='/role/insert'>
+                        <i class="menu-icon fa fa-user-plus bg-green"></i>
 
-                        <div class="progress progress-xxs">
-                            <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href='javascript::;'>
-                        <h4 class="control-sidebar-subheading">
-                            Back End Framework
-                            <span class="label label-primary pull-right">68%</span>
-                        </h4>
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">添加角色</h4>
 
-                        <div class="progress progress-xxs">
-                            <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                            <p></p>
                         </div>
                     </a>
                 </li>
             </ul>
             <!-- /.control-sidebar-menu -->
+            <h3 class="control-sidebar-heading">权限管理</h3>
+            <ul class='control-sidebar-menu'>
+
+
+                <li>
+                    <a href='/permission/index'>
+                        <i class="menu-icon fa fa-users bg-light-blue"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">显示权限</h4>
+
+                            <p></p>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href='/permission/insert'>
+                        <i class="menu-icon fa fa-user-plus bg-green"></i>
+
+                        <div class="menu-info">
+                            <h4 class="control-sidebar-subheading">添加权限</h4>
+
+                            <p></p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
 
         </div>
         <!-- /.tab-pane -->

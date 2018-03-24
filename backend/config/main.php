@@ -7,12 +7,18 @@ $params = array_merge(
 );
 
 return [
+    //全局权限
+//    'as rbac'=>[
+//       'class'=>\backend\filters\Rbacfilter::className(),
+//
+//    ],
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+
 //        'view' => [
 //            'theme' => [
 //                'pathMap' => [
