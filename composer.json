@@ -24,7 +24,9 @@
         "crazyfd/yii2-qiniu": "^1.03",
         "creocoder/yii2-nested-sets": "^0.9.0",
         "liyuze/yii2-ztree": "^1.0",
-        "dmstr/yii2-adminlte-asset": "^2.1"
+        "dmstr/yii2-adminlte-asset": "^2.1",
+        "mdmsoft/yii2-admin": "~2.0",
+        "mrgoon/aliyun-sms": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

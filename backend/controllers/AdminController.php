@@ -27,17 +27,21 @@ class AdminController extends \yii\web\Controller
                      $model=new AdminForm();
                      $request=\Yii::$app->request;
         if ($request->isPost) {
+
+
             $model->load($request->post());
 
-            $admin = Admin::find()->where(['username' => $model->username, 'status' => 1])->one();
 
-            if ($admin) {
 
-                if (\Yii::$app->security->validatePassword($model->password, $admin->password_hash)) {
-                    \Yii::$app->user->login($admin, $model->rememberMe ? 3600 * 24 : 0);
-                    $admin->login_at = time();
-                    $admin->login_ip = ip2long(\Yii::$app->request->userIP);
+            $user = Admin::find()->where(['username' => $model->username, 'status' => 1])->one();
 
+            if ($user) {
+
+                if (\Yii::$app->security->validatePassword($model->password, $user->password_hash)) {
+                    \Yii::$app->user->login($user, $model->rememberMe ? 3600 * 24 : 0);
+                    $user->login_at = time();
+                    $user->login_ip = ip2long(\Yii::$app->request->userIP);
+                   $user->save();
                     \Yii::$app->session->setFlash('success', '登陆成功');
                     return $this->redirect(['index']);
 
@@ -49,6 +53,8 @@ class AdminController extends \yii\web\Controller
 
                 $model->addError('username', '用户名不正确');
             }
+
+
         }
         return $this->render('login',compact('model'));
     }

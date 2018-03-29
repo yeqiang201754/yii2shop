@@ -14,7 +14,7 @@ class GoodsClassController extends \yii\web\Controller
      */
     public function actionIndex()
     {
-        $goods_classs=GoodsClass::find()->orderBy('deep','tree','lift')->all();
+        $goods_classs=GoodsClass::find()->orderBy('tree','lift')->all();
 
      // $goods_classs=$this->actionTree($goods_classs);
 
