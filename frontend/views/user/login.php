@@ -135,6 +135,15 @@
     <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/layer/layer.js"></script>
 <script>
+//得到地址后面的值
+    function getUrlParam(name)
+    {
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg); //匹配目标参数
+        if (r!=null) return unescape(r[2]);
+        return null; //返回参数值
+    }
+
     $(function () {
         //验证码点击事件
         $("#checkcodes,#checkcodeimg").click(function () {
@@ -149,7 +158,13 @@
                 $.post('/user/login', $("#login").serialize(), function (result) {
 
                     if(result.status){
-                        window.location.href = "/index/index";
+                        if (getUrlParam('url') == null) {
+                            window.location.href = "/index/index";
+                        }else {
+                            window.location.href = getUrlParam('url');
+                        }
+
+
                     }else {
 
                         $.each(result.data,function (k,v) {

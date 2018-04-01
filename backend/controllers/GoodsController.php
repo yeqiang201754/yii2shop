@@ -16,7 +16,9 @@ use yii\helpers\ArrayHelper;
 
 class GoodsController extends \yii\web\Controller
 {
-
+    /**查看
+     * @return string
+     */
 
     public function actionIndex()
     {
@@ -168,7 +170,6 @@ class GoodsController extends \yii\web\Controller
         }
 
     }
-
 
 
 }

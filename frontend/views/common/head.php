@@ -34,7 +34,17 @@
                 </dt>
                 <dd>
                     <div class="prompt">
-                        您好，请<a href="">登录</a>
+                        <?php
+
+                    if(Yii::$app->user->id==null){
+                   echo "您好，请<a href="."/user/login".">登录</a>";
+               }else{
+
+                   echo "你好".Yii::$app->user->identity->username;
+               }       
+                        
+                        ?>
+                        
                     </div>
                     <div class="uclist mt10">
                         <ul class="list1 fl">
@@ -70,7 +80,7 @@
         <div class="cart fl">
             <dl>
                 <dt>
-                    <a href="">去购物车结算</a>
+                    <a href="/list/cart-list">去购物车结算</a>
                     <b></b>
                 </dt>
                 <dd>
@@ -104,7 +114,7 @@
                 ?>
 
                 <div class="cat <?=$k0==0?"item1":""?>">
-                    <h3><a href="/index/list?id=<?=$v0->id?>"><?=$v0->name?></a> <b></b></h3>
+                    <h3><a href="/list/index?id=<?=$v0->id?>"><?=$v0->name?></a> <b></b></h3>
                     <div class="cat_detail">
 
                         <?php
@@ -114,7 +124,7 @@
                         ?>
 
                         <dl class="<?=$k0==0?"dl_1st":""?>">
-                            <dt><a href="/index/list?id=<?=$v1->id?>"><?=$v1->name?></a></dt>
+                            <dt><a href="/list/index?id=<?=$v1->id?>"><?=$v1->name?></a></dt>
                             <dd>
 
                                 <?php
@@ -122,7 +132,7 @@
 
 
                                 ?>
-                                <a href="/index/list?id=<?=$v2->id?>"><?=$v2->name?></a>
+                                <a href="/list/index?id=<?=$v2->id?>"><?=$v2->name?></a>
 
                                 <?php   }?>
                             </dd>

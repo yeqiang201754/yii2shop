@@ -5,20 +5,23 @@
         </div>
         <div class="topnav_right fr">
             <ul>
-                <li><?=Yii::$app->user->identity->username?>您好，欢迎来到京西！
+                <li><?=Yii::$app->user->id?Yii::$app->user->identity->username:""?>您好，欢迎来到京西！
 
                 <?php
+
                 $htnlout=<<<html
-                [<a href="user/login">登录</a>] [<a href="/user/reg">免费注册</a>]
+                [<a href="/user/login">登录</a>] [<a href="/user/reg">免费注册</a>]
 
 html;
              $htmllogin=<<<html
-[<a href="/user/logout">注销</a>]
+ 
+              [<a href="/user/logout">注销</a>]
 html;
 
-               if(Yii::$app->user->id){
+               if(Yii::$app->user->id!=null){
                    echo $htmllogin;
                }else{
+
                    echo $htnlout;
                }
 

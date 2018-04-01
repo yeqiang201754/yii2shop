@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use backend\models\AdminForm;
+use frontend\components\ShopCart;
 use frontend\models\User;
 use frontend\models\UserForm;
 use Mrgoon\AliSms\AliSms;
@@ -33,7 +34,7 @@ class UserController extends \yii\web\Controller
 
 
 
-//祖业
+//主页
 
     public function actionIndex()
     {
@@ -138,71 +139,79 @@ $request=\Yii::$app->request;
   }
 
 
-
+    /**登陆
+     * @return string
+     */
   public function actionLogin(){
       $model=new UserForm();
       $request=\Yii::$app->request;
       if ($request->isPost) {
-
           $model->load($request->post());
           if ($model->validate()) {
               $admin = User::find()->where(['username' => $model->username, 'status' => 1])->one();
-
               if ($admin) {
-
                   if (\Yii::$app->security->validatePassword($model->password, $admin->password_hash)) {
+                      \Yii::$app->user->login($admin, $model->rememberMe == "on" ? 3600 * 24 : 0);
 
-                      \Yii::$app->user->login($admin, $model->rememberMe=="on" ? 3600 * 24 : 0);
+                      //同步
+                      $carts = new ShopCart();
+                      $cart = $carts->show();
+                      foreach ($cart as $id => $num) {
+                         $carts->dbAdd($id, $num)->flush()->save();
+                      }
+
+
                       $admin->last_time = time();
                       $admin->last_ip = ip2long(\Yii::$app->request->userIP);
                       if ($admin->save(false)) {
-                          $result=[
-                              'status'=>1,
-                              'msg'=>'登陆成功',
-                              'data'=>'user'
+                          //同步
+                          $cart = new ShopCart();
+                          $result = [
+                              'status' => 1,
+                              'msg' => '登陆成功',
+                              'data' => 'user'
                           ];
-                          return  Json::encode($result);
+                          return Json::encode($result);
                       }
 //                  \Yii::$app->session->setFlash('success', '登陆成功');
 //                  return $this->redirect(['index']);
 
-                  } else {    $result=[
-                      'status'=>0,
-                      'msg'=>'登陆失败',
-                      'data'=>['password'=>['密码错误']]
-                  ];
-                      return  Json::encode($result);
+                  } else {
+                      $result = [
+                          'status' => 0,
+                          'msg' => '登陆失败',
+                          'data' => ['password' => ['密码错误']]
+                      ];
+                      return Json::encode($result);
 
-                    //  $model->addError('password', '密码错误');
+                      //  $model->addError('password', '密码错误');
                   }
-              } else {    $result=[
-                  'status'=>0,
-                  'msg'=>'登陆失败',
-                  'data'=>['username'=>['用户名不正确']]
-              ];
-                  return  Json::encode($result);
-
-                 // $model->addError('username', '用户名不正确');
-              }
-          }else{
-              $result=[
-                  'status'=>0,
-                  'msg'=>'登陆失败',
-                  'data'=>$model->errors
+              } else {
+                  $result = [
+                      'status' => 0,
+                      'msg' => '登陆失败',
+                      'data' => ['username' => ['用户名不正确']]
                   ];
-              return  Json::encode($result);
+                  return Json::encode($result);
+
+                  // $model->addError('username', '用户名不正确');
+              }
+          } else {
+              $result = [
+                  'status' => 0,
+                  'msg' => '登陆失败',
+                  'data' => $model->errors
+              ];
+              return Json::encode($result);
           }
-
-
-
-
       }
-
-
-
-
-
       return $this->render('login');
   }
 
+
+  public function actionLogout(){
+      \Yii::$app->user->logout();
+      return $this->redirect('/user/login');
+
+  }
 }

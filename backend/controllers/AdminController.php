@@ -67,8 +67,6 @@ class AdminController extends \yii\web\Controller
 
 \Yii::$app->user->logout();
 return $this->redirect(['login']);
-
-
     }
 
     /**

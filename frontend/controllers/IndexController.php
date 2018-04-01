@@ -11,11 +11,8 @@ class IndexController extends \yii\web\Controller
     {
         return $this->render('index');
     }
-       public function actionList($id){
-     //   $goods1=GoodsClass::find()->where(['p_id'=>$id])->all();
-             $goods=Goods::find()->where(['goods_class_id'=>$id])->all();
 
 
-             return $this->render('list',compact('goods'));
-       }
+
+
 }

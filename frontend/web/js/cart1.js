@@ -5,6 +5,15 @@
 */
 
 $(function(){
+  
+
+    //总计金额
+    var total = 0;
+    $(".col5 span").each(function(){
+        total += parseFloat($(this).text());
+    });
+
+    $("#total").text(total.toFixed(2));
 	
 	//减少
 	$(".reduce_num").click(function(){
@@ -14,6 +23,16 @@ $(function(){
 		} else{
 			$(amount).val(parseInt($(amount).val()) - 1);
 		}
+//的到id和数量
+		var num=$(this).next().val();
+		var id=$(this).parent().parent().attr('data_id');
+$.getJSON('/list/uptade-cart',{id:id,amount:num},function (data) {
+
+});
+
+
+
+
 		//小计
 		var subtotal = parseFloat($(this).parent().parent().find(".col3 span").text()) * parseInt($(amount).val());
 		$(this).parent().parent().find(".col5 span").text(subtotal.toFixed(2));
@@ -30,6 +49,12 @@ $(function(){
 	$(".add_num").click(function(){
 		var amount = $(this).parent().find(".amount");
 		$(amount).val(parseInt($(amount).val()) + 1);
+
+        var num=$(this).prev().val();
+        var id=$(this).parent().parent().attr('data_id');
+        $.getJSON('/list/uptade-cart',{id:id,amount:num},function (data) {
+
+        });
 		//小计
 		var subtotal = parseFloat($(this).parent().parent().find(".col3 span").text()) * parseInt($(amount).val());
 		$(this).parent().parent().find(".col5 span").text(subtotal.toFixed(2));
@@ -47,7 +72,13 @@ $(function(){
 		if (parseInt($(this).val()) < 1){
 			alert("商品数量最少为1");
 			$(this).val(1);
+
 		}
+        var num=$(this).val();
+        var id=$(this).parent().parent().attr('data_id');
+        $.getJSON('/list/uptade-cart',{id:id,amount:num},function (data) {
+
+        });
 		//小计
 		var subtotal = parseFloat($(this).parent().parent().find(".col3 span").text()) * parseInt($(this).val());
 		$(this).parent().parent().find(".col5 span").text(subtotal.toFixed(2));

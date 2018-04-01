@@ -82,4 +82,15 @@ public static $statuss=['下架','上架'];
     public function getGoodsClass(){
         return $this->hasOne(GoodsClass::className(),['id'=>'goods_class_id']);
     }
+
+    public function getImgs(){
+
+        return $this->hasMany(GoodsLogo::className(),['goods_id'=>'id']);
+
+    }
+
+    public function getContent(){
+
+        return $this->hasOne(GoodsContent::className(),['goods_id'=>'id']);
+    }
 }
