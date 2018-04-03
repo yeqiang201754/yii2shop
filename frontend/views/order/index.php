@@ -241,7 +241,7 @@ $total+=$v->goods_price*$cart[$v->id];
              $.post('/order/index',$("#form").serialize(),function (data) {
                   if(data.status){
 
-                      window.location.href = "/order/over";
+                      window.location.href = "/order/ok?id="+data.order_id;
 
                   }else {
 //页面层-自定义
