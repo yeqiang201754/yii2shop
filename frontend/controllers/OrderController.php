@@ -76,6 +76,11 @@ class OrderController extends Controller
                             $order_details->amount=$cart[$goods->id];
                             $order_details->order_id=$order->id;
                             if ($order_details->save()) {
+
+                            Cart::updateAll(['status'=>0],['user_id'=>$user_id,'status'=>1]);
+
+
+
                                 if ($goods->num>=$order_details->amount) {
                                     $goods->num-=$order_details->amount;
                                     if ($goods->save(false)) {
@@ -252,6 +257,10 @@ public function actionOver(){
     return  $this->render('over');
 }
 
+
+    /**
+     * 如果支付完成就改变状态
+     */
 public function actionMonitor(){
     $id=\Yii::$app->request->get('id');
     $order=Order::findOne($id);
@@ -268,5 +277,22 @@ if($status==2){
 
    echo  json_encode($result);
 }
+
+
+    /**
+     * 删除超时未支付的
+     */
+public function actionDelete(){
+$payment=Payment::find()->where(['immediate'=>1])->all();
+$payment=array_column($payment,'id');
+$time=time()-900;
+$orders=Order::find()->where(['<','add_time',$time])->andWhere(['in','payment_id',$payment])->all();
+foreach ($orders as $order){
+    $order->status=0;
+    $order->save();
+}
+}
+
+
 
 }

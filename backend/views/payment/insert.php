@@ -13,9 +13,10 @@ use yii\widgets\ActiveForm;
 
         <?= $form->field($model, 'name') ?>
         <?= $form->field($model, 'content') ?>
-    
+        <?= $form->field($model, 'immediate')->radioList(\backend\models\Payment::$immediates,['value'=>0]) ?>
+
         <div class="form-group">
-            <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+            <?= Html::submitButton('提交', ['class' => 'btn btn-primary']) ?>
         </div>
     <?php ActiveForm::end(); ?>
 

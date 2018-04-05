@@ -13,14 +13,14 @@ use Yii;
  */
 class Payment extends \yii\db\ActiveRecord
 {
-
+public static $immediates=['线下支付','线上支付'];
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['name', 'content'], 'required'],
+            [['name', 'content','immediate'], 'required'],
         ];
     }
 
@@ -33,6 +33,7 @@ class Payment extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => '名字',
             'content' => '标准',
+            'immediate'=>'支付方式'
         ];
     }
 }
